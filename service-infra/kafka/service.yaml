@@ -7,11 +7,8 @@ metadata:
     service: kafka
 spec:
   ports:
-    - name: external
+    - name: http
       port: 9092
       targetPort: 9092
-    - name: internal
-      port: 29092
-      targetPort: 29092
   selector:
     app: kafka
