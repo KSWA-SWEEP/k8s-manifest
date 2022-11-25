@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: config-service
+  name: service-config
   labels:
-    app: config-service
+    app: cservice-config
 spec:
   type: LoadBalancer
   selector:
-    app: config-service
+    app: service-config
   ports:
     - protocol: TCP
       port: 8080

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: config-service
+  name: service-config
 spec:
   selector:
     matchLabels:
-      app: config-service
+      app: service-config
   replicas: 2
   template:
     metadata:
       labels:
-        app: config-service
+        app: service-config
     spec:
 #      imagePullSecrets:
 #        - name: {k8s 내에서 생성한 secret 명, dockerhub 내 private repository에 접근하기 위함.}
