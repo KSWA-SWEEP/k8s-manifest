@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: service-config
   labels:
-    app: cservice-config
+    app: service-config
+    service: service-config
 spec:
-  type: LoadBalancer
+  ports:
+    - port: 8760
+      targetPort: 8760
+      name: http
   selector:
     app: service-config
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8760

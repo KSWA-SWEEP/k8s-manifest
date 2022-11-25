@@ -1,0 +1,570 @@
+# ##################################################################################################
+# # Config service
+# ##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-config
+  labels:
+    app: service-config
+    service: service-config
+spec:
+  ports:
+    - port: 8760
+      targetPort: 8760
+      name: http
+  selector:
+    app: service-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-config-v1
+  labels:
+    app: service-config
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-config
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-config
+        version: v1
+    spec:
+      containers:
+        - name: service-config
+          image: qkdrmsgh73/service-config
+          ports:
+            - containerPort: 8760
+          resources: {}
+---
+##################################################################################################
+# redis
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+    service: redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: http
+  selector:
+    app: redis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-v1
+  labels:
+    app: redis
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: redis
+        version: v1
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          command:
+            - "redis-server"
+          args:
+            - "--port"
+            - "6379"
+          ports:
+            - containerPort: 6379
+          resources: {}
+---
+
+##################################################################################################
+# rabbitmq
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+    service: rabbitmq
+spec:
+  ports:
+    - name: user
+      port: 5672
+      targetPort: 5672
+    - name: admin
+      port: 15672
+      targetPort: 15672
+  selector:
+    app: rabbitmq
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-v1
+  labels:
+    app: rabbitmq
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+        version: v1
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: sweep
+            - name: RABBITMQ_DEFAULT_PASS
+              value: sweep
+---
+##################################################################################################
+# service-zipkin
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-zipkin
+  labels:
+    app: service-zipkin
+    service: service-zipkin
+spec:
+  ports:
+    - port: 9411
+      targetPort: 9411
+      name: http
+  selector:
+    app: service-zipkin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-zipkin-v1
+  labels:
+    app: service-zipkin
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-zipkin
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-zipkin
+        version: v1
+    spec:
+      containers:
+        - name: service-zipkin
+          image: openzipkin/zipkin
+          ports:
+            - containerPort: 9411
+          resources: {}
+---
+##################################################################################################
+# service-discovery
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-discovery
+  labels:
+    app: service-discovery
+    service: service-discovery
+spec:
+  ports:
+    - port: 8761
+      targetPort: 8761
+      name: http
+  selector:
+    app: service-discovery
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-discovery-v1
+  labels:
+    app: service-discovery
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-discovery
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-discovery
+        version: v1
+    spec:
+      containers:
+        - name: service-discovery
+          image: qkdrmsgh73/service-discovery
+          ports:
+            - containerPort: 8761
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+---
+##################################################################################################
+# service-gateway
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-gateway
+  labels:
+    app: service-gateway
+    service: service-gateway
+spec:
+  ports:
+    - port: 8762
+      targetPort: 8762
+      name: http
+  selector:
+    app: service-gateway
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-gateway-v1
+  labels:
+    app: service-gateway
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-gateway
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-gateway
+        version: v1
+    spec:
+      containers:
+        - name: service-gateway
+          image: qkdrmsgh73/service-gateway
+          ports:
+            - containerPort: 8762
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+---
+
+##################################################################################################
+# service-auth
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-auth
+  labels:
+    app: service-auth
+    service: service-auth
+spec:
+  ports:
+    - port: 7500
+      targetPort: 2222
+      name: http
+  selector:
+    app: service-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-auth-v1
+  labels:
+    app: service-auth
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-auth
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-auth
+        version: v1
+    spec:
+      containers:
+        - name: service-auth
+          image: qkdrmsgh73/service-auth
+          ports:
+            - containerPort: 7500
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+            - name: REDIS_PORT
+              value: "6379"
+---
+##################################################################################################
+# service-member
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-member
+  labels:
+    app: service-member
+    service: service-member
+spec:
+  ports:
+    - port: 7501
+      targetPort: 2222
+      name: http
+  selector:
+    app: service-member
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-member-v1
+  labels:
+    app: service-member
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-member
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-member
+        version: v1
+    spec:
+      containers:
+        - name: service-member
+          image: qkdrmsgh73/service-member
+          ports:
+            - containerPort: 7501
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+---
+##################################################################################################
+# service-response
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-response
+  labels:
+    app: service-response
+    service: service-response
+spec:
+  ports:
+    - port: 7502
+      targetPort: 2222
+      name: http
+  selector:
+    app: service-response
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-response-v1
+  labels:
+    app: service-response
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-response
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-response
+        version: v1
+    spec:
+      containers:
+        - name: service-response
+          image: qkdrmsgh73/service-response
+          ports:
+            - containerPort: 7502
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+---
+##################################################################################################
+# service-survey
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-survey
+  labels:
+    app: service-survey
+    service: service-survey
+spec:
+  ports:
+    - port: 7503
+      targetPort: 2222
+      name: http
+  selector:
+    app: service-survey
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-survey-v1
+  labels:
+    app: service-survey
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-survey
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: service-survey
+        version: v1
+    spec:
+      containers:
+        - name: service-survey
+          image: qkdrmsgh73/service-survey
+          ports:
+            - containerPort: 7503
+          resources: {}
+          env:
+            - name: USE_PROFILE
+              value: dev
+---
+##################################################################################################
+# prometheus
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+    service: prometheus
+spec:
+  ports:
+    - port: 9090
+      targetPort: 9090
+      name: http
+  selector:
+    app: prometheus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-v1
+  labels:
+    app: prometheus
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        version: v1
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          resources: {}
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml
+
+---
+##################################################################################################
+# grafana
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+    service: grafana
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3000
+      name: http
+  selector:
+    app: grafana
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-v1
+  labels:
+    app: grafana
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: grafana
+        version: v1
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          ports:
+            - containerPort: 3001
+          resources: {}
+
+##################################################################################################
+# Formduo-Front
+##################################################################################################
+

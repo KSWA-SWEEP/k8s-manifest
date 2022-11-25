@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-v1
+  labels:
+    app: prometheus
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        version: v1
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          resources: {}
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml

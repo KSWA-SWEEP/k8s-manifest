@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-survey
+  labels:
+    app: service-survey
+    service: service-survey
+spec:
+  ports:
+    - port: 7503
+      targetPort: 2222
+      name: http
+  selector:
+    app: service-survey
