@@ -1,21 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq-v1
+  name: rabbitmq
   labels:
     app: rabbitmq
-    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: rabbitmq
-      version: v1
   template:
     metadata:
       labels:
         app: rabbitmq
-        version: v1
     spec:
       containers:
         - name: rabbitmq
