@@ -3,16 +3,16 @@ apiVersion: apps/v1
 metadata:
   name: kafka-deployment
   labels:
-    app: kafka
+    app: kafka-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka
+      app: kafka-service
   template:
     metadata:
       labels:
-        app: kafka
+        app: kafka-service
     spec:
       containers:
         - name: broker
