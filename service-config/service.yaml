@@ -6,6 +6,7 @@ metadata:
     app: service-config
     service: service-config
 spec:
+  type: LoadBalancer
   ports:
     - port: 8760
       targetPort: 8760
