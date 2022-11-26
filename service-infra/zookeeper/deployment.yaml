@@ -19,8 +19,8 @@ spec:
           image: wurstmeister/zookeeper
           ports:
             - containerPort: 2181
-          env:
-            - name: ZOOKEEPER_CLIENT_PORT
-              value: "2181"
-            - name: ZOOKEEPER_TICK_TIME
-              value: "2000"
+#          env:
+#            - name: ZOOKEEPER_CLIENT_PORT
+#              value: "2181"
+#            - name: ZOOKEEPER_TICK_TIME
+#              value: "2000"
