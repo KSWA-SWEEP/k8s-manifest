@@ -25,6 +25,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "INTERNAL://kafka-service:29092, OUTSIDE://${MY_POD_IP}:9092"
             - name: KAFKA_BROKER_ID
               value: "1"
             - name: KAFKA_ZOOKEEPER_CONNECT
@@ -33,8 +35,6 @@ spec:
               value: INTERNAL://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-            - name: KAFKA_ADVERTISED_LISTENERS
-              value: INTERNAL://kafka-service:29092,OUTSIDE://${MY_POD_IP}:9092
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: INTERNAL
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
