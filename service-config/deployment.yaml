@@ -16,6 +16,6 @@ spec:
 #        - name: {k8s 내에서 생성한 secret 명, dockerhub 내 private repository에 접근하기 위함.}
       containers:
         - name: config-service
-          image: qkdrmsgh73/service-config:latest
+          image: qkdrmsgh73/service-config:16
           ports:
               - containerPort: 8760
