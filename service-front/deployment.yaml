@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-front
+  labels:
+    app: service-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-front
+  template:
+    metadata:
+      labels:
+        app: service-front
+    spec:
+      containers:
+        - name: service-gateway
+          image: jongleur6596/frontend-msa:latest
+          ports:
+            - containerPort: 3000
+          resources: {}
