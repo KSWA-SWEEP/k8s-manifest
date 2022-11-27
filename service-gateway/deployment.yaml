@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-gateway
-          image: qkdrmsgh73/service-gateway:4
+          image: qkdrmsgh73/service-gateway:5
           ports:
             - containerPort: 8762
           resources: {}
