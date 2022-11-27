@@ -26,3 +26,11 @@ spec:
           env:
             - name: USE_PROFILE
               value: dev
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8762
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8762
