@@ -25,7 +25,7 @@ spec:
           resources: {}
           env:
             - name: USE_PROFILE
-              value: dev
+              value: local
           livenessProbe:
             httpGet:
               path: /actuator/health
