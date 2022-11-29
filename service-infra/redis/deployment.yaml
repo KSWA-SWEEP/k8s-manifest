@@ -28,3 +28,10 @@ spec:
           ports:
             - containerPort: 6379
           resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: pvc-volume
+      volumes:
+        - name: pvc-volume
+          persistentVolumeClaim:
+            claimName: pvc-nfs-share-storage
