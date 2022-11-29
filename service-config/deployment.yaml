@@ -31,10 +31,3 @@ spec:
               port: 8760
             initialDelaySeconds: 30
             periodSeconds: 10
-          volumeMounts:
-            - mountPath: /logs
-              name: pvc-volume
-      volumes:
-        - name: pvc-volume
-          persistentVolumeClaim:
-            claimName: pvc-nfs-share-storage
