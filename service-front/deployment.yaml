@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: service-gateway
-          image: jongleur6596/frontend-msa:latest
+          image: qkdrmsgh73/service-front:latest
           ports:
             - containerPort: 3000
           resources: {}
