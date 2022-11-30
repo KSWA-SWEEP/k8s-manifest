@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kafka-deployment
+  name: kafka-deployment-1
   labels:
     app: kafka-service-1
 spec:
