@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-share-storage
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 172.16.0.114
+    path: /sweep
+  storageClassName: "nfs-share-storage"
