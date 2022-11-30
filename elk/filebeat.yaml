@@ -1,0 +1,62 @@
+##################################################################################################
+# FileBeat
+##################################################################################################
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: filebeat
+  labels:
+    app: filebeat
+    service: filebeat
+spec:
+  ports:
+    - name: "9999"
+      port: 9999
+      targetPort: 9999
+  selector:
+    app: filebeat
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebeat-v1
+  labels:
+    app: filebeat
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filebeat
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: filebeat
+        version: v1
+    spec:
+      containers:
+      - args:
+          - filebeat
+          - -e
+          - -strict.perms=false
+        name: filebeat
+        image: docker.elastic.co/beats/filebeat:7.13.0
+        ports:
+        - containerPort: 9999
+        volumeMounts:
+          - mountPath: ./filebeat/config
+            name: pvc-volume
+          - mountPath: ./filebeat/logs
+            name: pvc-volume2
+      restartPolicy: Always
+      volumes:
+      - name: pvc-volume
+        nfs:
+          server: 172.16.0.114
+          path: /sweep/filebeat
+      - name: pvc-volume2
+        nfs:
+          server: 172.16.0.114
+          path: /sweep/service_logs
