@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-survey
-          image: qkdrmsgh73/service-survey:7
+          image: qkdrmsgh73/service-survey:8
           ports:
             - containerPort: 7503
           resources: {}
