@@ -1,0 +1,70 @@
+##################################################################################################
+# Elasticsearch
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+    service: elasticsearch
+spec:
+  ports:
+    - name: "9200"
+      port: 9200
+      targetPort: 9200
+    - name: "9300"
+      port: 9300
+      targetPort: 9300
+  selector:
+    app: elasticsearch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch-v1
+  labels:
+    app: elasticsearch
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        version: v1
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0
+          volumeMounts:
+          - mountPath: ./elasticsearch/config
+            name: pvc-volume
+          - mountPath: ./elasticsearch
+            name: pvc-volume2
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          env:
+              - name: ELASTIC_PASSWORD
+                value: password
+              - name: ES_JAVA_OPTS
+                value: -Xmx256m -Xms256m
+              - name: discovery.type
+                value: single-node
+          
+      restartPolicy: Always
+      volumes:
+      - name: pvc-volume
+        nfs:
+          server: 172.16.0.114
+          path: /sweep/elasticsearch
+      - name: pvc-volume2
+        nfs:
+          server: 172.16.0.114
+          path: /sweep/elasticsearch/data
+
