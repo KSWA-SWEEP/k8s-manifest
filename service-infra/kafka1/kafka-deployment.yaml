@@ -18,21 +18,21 @@ spec:
         - name: kafka
           image: confluentinc/cp-kafka:latest
           ports:
-            - containerPort: 9092
-            - containerPort: 29092
+            - containerPort: 9093
+            - containerPort: 29093
           env:
             - name: MY_POD_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: INTERNAL://kafka-service-1:29092, OUTSIDE://localhost:9092
+              value: INTERNAL://kafka-service-1:29093, OUTSIDE://localhost:9093
             - name: KAFKA_BROKER_ID
               value: "2"
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: zookeeper:2181
             - name: KAFKA_LISTENERS
-              value: INTERNAL://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+              value: INTERNAL://0.0.0.0:29093,OUTSIDE://0.0.0.0:9093
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
             - name: KAFKA_INTER_BROKER_LISTENER_NAME

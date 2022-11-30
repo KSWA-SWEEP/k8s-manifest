@@ -23,7 +23,7 @@ spec:
             - name: CONNECT_REST_PORT
               value : "8083"
             - name: CONNECT_BOOTSTRAP_SERVERS
-              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29092,INTERNAL://kafka-service-2:29092
+              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29093,INTERNAL://kafka-service-2:29094
             - name: CONNECT_GROUP_ID
               value: compose-connect-group
             - name: CONNECT_KEY_CONVERTER

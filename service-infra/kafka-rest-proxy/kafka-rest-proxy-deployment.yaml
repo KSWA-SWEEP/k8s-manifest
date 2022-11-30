@@ -23,6 +23,6 @@ spec:
             - name: KAFKA_REST_LISTENERS
               value : http://0.0.0.0:8082/
             - name: KAFKA_REST_BOOTSTRAP_SERVERS
-              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29092,INTERNAL://kafka-service-2:29092
+              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29093,INTERNAL://kafka-service-2:29094
             - name: KAFKA_REST_HOST_NAME
               value: kafka-rest-proxy

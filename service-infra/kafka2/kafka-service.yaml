@@ -8,9 +8,9 @@ spec:
   ports:
     - name : external
       protocol: TCP
-      port: 9092
-      targetPort: 9092
+      port: 9094
+      targetPort: 9094
     - name : internal
       protocol: TCP
-      port: 29092
-      targetPort: 29092
+      port: 29094
+      targetPort: 29094
