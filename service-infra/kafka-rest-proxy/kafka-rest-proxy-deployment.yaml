@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kafka-deployment
+  labels:
+    app: kafka-rest-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-rest-proxy
+  template:
+    metadata:
+      labels:
+        app: kafka-rest-proxy
+    spec:
+      containers:
+        - name: kafka-rest-proxy
+          image: confluentinc/cp-kafka-rest
+          ports:
+            - containerPort: 8082
+          env:
+            - name: KAFKA_REST_LISTENERS
+              value : http://0.0.0.0:8082/
+            - name: KAFKA_REST_BOOTSTRAP_SERVERS
+              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29092,INTERNAL://kafka-service-2:29092
+            - name: KAFKA_REST_HOST_NAME
+              value: kafka-rest-proxy

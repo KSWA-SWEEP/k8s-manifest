@@ -3,16 +3,16 @@ apiVersion: apps/v1
 metadata:
   name: kafka-deployment
   labels:
-    app: kafka-service
+    app: kafka-service-2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-service
+      app: kafka-service-2
   template:
     metadata:
       labels:
-        app: kafka-service
+        app: kafka-service-2
     spec:
       containers:
         - name: kafka
@@ -28,7 +28,7 @@ spec:
             - name: KAFKA_ADVERTISED_LISTENERS
               value: INTERNAL://kafka-service:29092, OUTSIDE://localhost:9092
             - name: KAFKA_BROKER_ID
-              value: "1"
+              value: "3"
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: zookeeper:2181
             - name: KAFKA_LISTENERS

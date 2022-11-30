@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kafka-connect
+  labels:
+    app: kafka-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      containers:
+        - name: kafka-connect
+          image: confluentinc/cp-kafka-connect
+          ports:
+            - containerPort: 8083
+          env:
+            - name: CONNECT_REST_PORT
+              value : "8083"
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29092,INTERNAL://kafka-service-2:29092
+            - name: CONNECT_GROUP_ID
+              value: compose-connect-group
+            - name: CONNECT_KEY_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_VALUE_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_INTERNAL_KEY_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_INTERNAL_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              value: "kafka-connect"
+            - name: CONNECT_LOG4J_ROOT_LOGLEVEL
+              value: "INFO"
+            - name: CONNECT_LOG4J_LOGGERS
+              value: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_PLUGIN_PATH
+              value: '/usr/share/java,/etc/kafka-connect/jars,/usr/share/confluent-hub-components'
