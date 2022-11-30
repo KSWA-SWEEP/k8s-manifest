@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kafka-deployment
+  name: kafka-ui-deployment
   labels:
     app: kafka-ui
 spec:
@@ -23,6 +23,6 @@ spec:
             - name: KAFKA_CLUSTERS_0_NAME
               value : "kubernetnes"
             - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
-              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29092,INTERNAL://kafka-service-2:29092
+              value: INTERNAL://kafka-service:29092,INTERNAL://kafka-service-1:29093,INTERNAL://kafka-service-2:29094
             - name: KAFKA_CLUSTERS_0_ZOOKEEPER
               value: "zookeeper:2181"
