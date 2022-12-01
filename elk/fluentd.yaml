@@ -86,16 +86,16 @@ spec:
         volumeMounts:
         - name: varlog
           mountPath: /var/log
-        - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
-          readOnly: true
+        # - name: varlibdockercontainers
+        #   mountPath: /var/lib/docker/containers
+        #   readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
         nfs:
           server: 172.16.0.114
-          path: /sweep/fluentd
-      - name: varlibdockercontainers
-        nfs:
-          server: 172.16.0.114
-          path: /sweep/fluentd/docker
+          path: /sweep/service_logs
+      # - name: varlibdockercontainers
+      #   nfs:
+      #     server: 172.16.0.114
+      #     path: /sweep/fluentd/docker
