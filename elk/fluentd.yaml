@@ -98,4 +98,4 @@ spec:
       - name: varlibdockercontainers
         nfs:
           server: 172.16.0.114
-          path: /sweep/fluentd
+          path: /sweep/fluentd/docker
