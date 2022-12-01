@@ -86,16 +86,81 @@ spec:
         volumeMounts:
         - name: varlog
           mountPath: /var/log
-        # - name: varlibdockercontainers
-        #   mountPath: /var/lib/docker/containers
-        #   readOnly: true
+        - name: varlibdockercontainers
+          mountPath: /fluentd/etc/fluent.conf
+          readOnly: true
+        - name: kubeconfig
+          mountPath: /fluentd/etc/kubernetes.conf
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
         nfs:
           server: 172.16.0.114
           path: /sweep/service_logs
-      # - name: varlibdockercontainers
-      #   nfs:
-      #     server: 172.16.0.114
-      #     path: /sweep/fluentd/docker
+      - name: varlibdockercontainers
+        configMap:
+          name: fluentd-config
+      - name: kubeconfig
+        configMap:
+          name: fluentd-config
+
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: fluentd-config
+#   namespace: kube-system
+#   labels:
+#     k8s-app: fluentd-logging
+#     version: v1
+#     kubernetes.io/cluster-service: "true"
+# data:
+#   fluent.conf: |
+#     @include kubernetes.conf
+#     @include kubernetes2.conf
+#     <match fluent.**>
+#         # this tells fluentd to not output its log on stdout
+#         @type null
+#     </match>
+#     # here we read the logs from Docker's containers and parse them
+#     <source>
+#       @type tail
+#       path /var/log/auth/*.log, /var/log/discovery/*.log,/var/log/response/*.log, /var/log/survey/*.log, /var/log/gateway/*.log, /var/log/config/*.log 
+#       pos_file /var/log/formduo-service.log.pos
+#       tag formduo.service
+#       # <parse>
+#       #   @type json
+#       #   time_format %Y-%m-%dT%H:%M:%S.%NZ
+#       # </parse>
+#     </source>
+
+#     </match>
+#      # we send the logs to Elasticsearch
+#     <match formduo.*>
+#        @type elasticsearch
+#        @id out_es
+#        @log_level info
+#        include_tag_key true
+#        host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+#        port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+#        user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+#        password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+#        scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+#        ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'true'}"
+#        reload_connections true
+#        logstash_format true
+#        logstash_prefix ${record['kubernetes']['pod_name']}
+#        <buffer>
+#            @type file
+#            path /var/log/fluentd-buffers/kubernetes.system.buffer
+#            flush_mode interval
+#            retry_type exponential_backoff
+#            flush_thread_count 2
+#            flush_interval 5s
+#            retry_forever true
+#            retry_max_interval 30
+#            chunk_limit_size 2M
+#            queue_limit_length 32
+#            overflow_action block
+#        </buffer>
+#     </match>
