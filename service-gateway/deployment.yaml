@@ -12,7 +12,7 @@ metadata:
     app: service-gateway
     version: v1
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: service-gateway
