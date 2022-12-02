@@ -49,10 +49,9 @@ spec:
         - name: logstash
           image: docker.elastic.co/logstash/logstash:7.13.0
           volumeMounts:
-          - mountPath: ./logstash/config
+          - mountPath: /usr/share/logstash/config
             name: pvc-volume
-          - mountPath: ./logstash/pipeline
-            name: pvc-volume2
+
           ports:
             - containerPort: 5044
             - containerPort: 5000
@@ -65,11 +64,35 @@ spec:
       restartPolicy: Always
       volumes:
       - name: pvc-volume
-        nfs:
-          server: 172.16.0.114
-          path: /sweep/logstash
-      - name: pvc-volume2
-        nfs:
-          server: 172.16.0.114
-          path: /sweep/logstash/pipeline
+        persistentVolumeClaim:
+          claimName: pvc-logstash
 
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-logstash
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 172.16.0.114
+    path: /sweep/logstash/
+  storageClassName: "logstash-storage"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-logstash
+spec:
+  storageClassName: "logstash-storage"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

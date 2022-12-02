@@ -20,43 +20,42 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: filebeat-v1
+  name: filebeat-1
   labels:
-    app: filebeat
-    version: v1
+    app: filebeat-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: filebeat
-      version: v1
+      app: filebeat-1
   template:
     metadata:
       labels:
-        app: filebeat
-        version: v1
+        app: filebeat-1
     spec:
       containers:
       - args:
           - filebeat
           - -e
           - -strict.perms=false
-        name: filebeat
+        name: filebeat-1
         image: docker.elastic.co/beats/filebeat:7.13.0
         ports:
         - containerPort: 9999
         volumeMounts:
-          - mountPath: ./filebeat/config
+          - mountPath: /usr/share/filebeat
             name: pvc-volume
-          - mountPath: ./filebeat/logs
-            name: pvc-volume2
+            readOnly: true
+#          - mountPath: /usr/share/filebeat/logs
+#            name: pvc-volume2
+#            readOnly: true
       restartPolicy: Always
       volumes:
       - name: pvc-volume
         nfs:
           server: 172.16.0.114
-          path: /sweep/filebeat
-      - name: pvc-volume2
-        nfs:
-          server: 172.16.0.114
-          path: /sweep/service_logs
+          path: /sweep/filebeat/config
+#      - name: pvc-volume2
+#        nfs:
+#          server: 172.16.0.114
+#          path: /sweep/service_logs
