@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-auth
-          image: qkdrmsgh73/service-auth:17
+          image: qkdrmsgh73/service-auth:23
           ports:
             - containerPort: 7500
           resources: {}
