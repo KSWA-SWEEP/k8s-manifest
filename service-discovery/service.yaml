@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: my_channel
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-logs
 
 apiVersion: v1
 kind: Service
