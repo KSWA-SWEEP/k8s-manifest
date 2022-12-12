@@ -6,7 +6,6 @@ metadata:
     app: service-gateway
     service: service-gateway
 spec:
-  type: LoadBalancer
   ports:
     - port: 8762
       targetPort: 8762

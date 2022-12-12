@@ -6,7 +6,6 @@ metadata:
     app: service-survey
     service: service-survey
 spec:
-  type: LoadBalancer
   ports:
     - port: 7503
       targetPort: 2222
