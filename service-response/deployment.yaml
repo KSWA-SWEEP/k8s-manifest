@@ -41,6 +41,8 @@ spec:
           volumeMounts:
             - mountPath: /logs
               name: pvc-volume
+      nodeSelector:
+        disktype: ssd
       volumes:
         - name: pvc-volume
           persistentVolumeClaim:
