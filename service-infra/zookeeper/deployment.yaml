@@ -14,6 +14,8 @@ spec:
       labels:
         app: zookeeper
     spec:
+      nodeSelector:
+        disktype: ssd
       containers:
         - name: zookeeper
           image: confluentinc/cp-zookeeper:latest

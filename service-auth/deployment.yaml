@@ -17,6 +17,8 @@ spec:
         app: service-auth
         version: v1
     spec:
+      nodeSelector:
+        disktype: ssd
       containers:
         - name: service-auth
           image: qkdrmsgh73/service-auth:31
