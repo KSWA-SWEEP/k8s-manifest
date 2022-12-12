@@ -6,15 +6,19 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 
 spec:
+  tls:
+    - hosts:
+        - formduo.xyz
+      secretName: letsecret
   ingressClassName: nginx
   rules:
-    - host: api.formduo.xyz
+    - host: formduo.xyz
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: service-gateway
+                name: service-front
                 port:
-                  number: 8762
+                  number: 3000
