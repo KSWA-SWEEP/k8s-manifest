@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-response
-          image: qkdrmsgh73/service-response:19
+          image: qkdrmsgh73/service-response:20
           ports:
             - containerPort: 7502
           resources: {}
