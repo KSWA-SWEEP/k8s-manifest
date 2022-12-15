@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: service-gateway
-          image: qkdrmsgh73/service-front:91
+          image: qkdrmsgh73/service-front:92
           ports:
             - containerPort: 3000
           resources: {}
